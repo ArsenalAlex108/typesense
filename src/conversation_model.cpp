@@ -1059,6 +1059,9 @@ Option<bool> vLLMConversationModel::validate_model(const nlohmann::json& model_c
     ])"_json;
     std::string chat_res;
 
+    headers["timeout_ms"] = 360000;
+
+
     res_code = RemoteEmbedder::call_remote_api("POST", get_chat_completion_url(model_config["vllm_url"]), req_body.dump(-1), chat_res, res_headers, headers);
 
     if(res_code == 408) {
