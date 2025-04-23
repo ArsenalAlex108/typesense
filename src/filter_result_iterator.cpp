@@ -3043,7 +3043,7 @@ bool filter_result_iterator_t::validate_object_filter_helper(Index const* const 
         const auto& nested_field = filter_exp.field_name.substr(pos+1, filter_exp.field_name.size() - (pos+1));
         field f = index->search_schema.at(filter_exp.field_name);
 
-        using fieldType = std::variant<int64_t, float, bool, std::string>;
+        using fieldType = std::variant<int64_t, long long int, float, bool, std::string>;
         fieldType doc_val, filter_val;
 
         bool match_found = false;
