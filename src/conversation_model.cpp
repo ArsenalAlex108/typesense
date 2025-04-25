@@ -1009,6 +1009,8 @@ Option<bool> vLLMConversationModel::validate_model(const nlohmann::json& model_c
         headers["Authorization"] = "Bearer " + model_config["api_key"].get<std::string>();
     }
 
+    headers["timeout_ms"] = "2000000000";
+    
     auto res_code = RemoteEmbedder::call_remote_api("GET", get_list_models_url(model_config["vllm_url"]), "", res, res_headers, headers);
 
     if(res_code == 408) {
@@ -1113,6 +1115,8 @@ Option<std::string> vLLMConversationModel::get_answer(const std::string& context
         headers["Authorization"] = "Bearer " + model_config["api_key"].get<std::string>();
     }
 
+    headers["timeout_ms"] = "2000000000";
+    
     auto res_code = RemoteEmbedder::call_remote_api("POST", get_chat_completion_url(vllm_url), req_body.dump(), res, res_headers, headers);
 
     if(res_code == 408) {
@@ -1160,6 +1164,7 @@ Option<std::string> vLLMConversationModel::get_answer_stream(const std::string& 
     std::unordered_map<std::string, std::string> headers;
     std::map<std::string, std::string> res_headers;
     headers["Content-Type"] = "application/json";
+    headers["timeout_ms"] = "2000000000";
     nlohmann::json req_body;
     req_body["model"] = model_name;
     req_body["messages"] = nlohmann::json::array();
@@ -1275,6 +1280,8 @@ Option<std::string> vLLMConversationModel::get_standalone_question(const nlohman
     if(model_config.count("api_key") != 0) {
         headers["Authorization"] = "Bearer " + model_config["api_key"].get<std::string>();
     }
+
+    headers["timeout_ms"] = "2000000000";
 
     auto res_code = RemoteEmbedder::call_remote_api("POST", get_chat_completion_url(vllm_url), req_body.dump(), res, res_headers, headers);
 
